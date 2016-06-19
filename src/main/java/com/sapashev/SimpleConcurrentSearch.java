@@ -15,14 +15,14 @@ public class SimpleConcurrentSearch {
         try {
             new SimpleConcurrentSearch().startProcession(args);
         }
-        catch (MissedArgumnetExcetion ex){
+        catch (MissedArgumentException ex){
             //TODO log exception
         }
     }
 
-    private void startProcession(String[] args) throws MissedArgumnetExcetion{
+    private void startProcession(String[] args) throws MissedArgumentException {
         if (args.length < 2){
-            throw new MissedArgumnetExcetion("missed some arguments");
+            throw new MissedArgumentException("missed some arguments");
         }
         String startPlace = args[0];
         String textToSearch = args[1];

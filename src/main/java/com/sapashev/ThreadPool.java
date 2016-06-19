@@ -37,14 +37,14 @@ public class ThreadPool {
     private void createThreads(File rootOfSearch, String textToSearch){
         createFileList(rootOfSearch);
         numThreads = files.size() < numThreads ? files.size() : numThreads;
-        int increaseRate = files.size()/numThreads;
+        int filesToProcess = files.size()/numThreads;
         int fromIndex = 0;
-        int toIndex = fromIndex + increaseRate;
+        int toIndex = fromIndex + filesToProcess;
         for(int i = 0; i < numThreads; i++){
             threads.add(new Thread(new SearchThread(files.subList(fromIndex,toIndex),textToSearch)));
             //To get next sublist of files increases fromIndex and toIndex
             fromIndex = toIndex;
-            toIndex = fromIndex + increaseRate;
+            toIndex = fromIndex + filesToProcess;
             if(toIndex > files.size()){
                 toIndex = files.size();
             }

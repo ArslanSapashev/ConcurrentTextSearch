@@ -44,13 +44,13 @@ public class SimpleConcurrentSearch {
         }
         String startPlace = args[0];
         String textToSearch = args[1];
-        ThreadPool pool = new ThreadPool(Integer.parseInt(args[2]));
+        int numThread = Integer.parseInt(args[2]);
+        ThreadPool pool = new ThreadPool(numThread);
         try{
             pool.start(new File(startPlace),textToSearch);
         }
         catch (InterruptedException ex){
             //TODO log exception
-            return;
         }
     }
 }

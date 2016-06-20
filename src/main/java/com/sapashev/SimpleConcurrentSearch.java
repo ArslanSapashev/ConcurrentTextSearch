@@ -50,7 +50,7 @@ public class SimpleConcurrentSearch {
             pool.start(new File(startPlace),textToSearch);
         }
         catch (InterruptedException ex){
-            //TODO log exception
+            LOG.error(String.format("InterruptedException %s", ex));
         }
     }
 }

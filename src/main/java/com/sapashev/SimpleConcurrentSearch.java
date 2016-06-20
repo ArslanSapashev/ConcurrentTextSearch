@@ -19,7 +19,7 @@ public class SimpleConcurrentSearch {
 
     public static void main (String[] args) {
         try {
-            new SimpleConcurrentSearch().start(args, 50);
+            new SimpleConcurrentSearch().start(args);
         }
         catch (MissedArgumentException ex){
             LOG.error(String.format("%s. User passed %d parameters.", ex, args.length));
@@ -32,12 +32,11 @@ public class SimpleConcurrentSearch {
     /**
      * Checks arguments and creates thread pool.
      * @param args - first argument it's place from which start to search, the second one is text to search.
-     * @param numThreads - desirable number of threads to conduct search.
      * @throws MissedArgumentException - if one/both arguments absent.
      * @throws FileNotFoundException - if first argument points to wrong path
      */
-    private void start (String[] args, int numThreads) throws MissedArgumentException, FileNotFoundException {
-        if (args.length < 2){
+    private void start (String[] args) throws MissedArgumentException, FileNotFoundException {
+        if (args.length < 3){
             throw new MissedArgumentException("missed some arguments");
         }
         if(!(new File(args[0]).exists())){
@@ -45,7 +44,7 @@ public class SimpleConcurrentSearch {
         }
         String startPlace = args[0];
         String textToSearch = args[1];
-        ThreadPool pool = new ThreadPool(numThreads);
+        ThreadPool pool = new ThreadPool(Integer.parseInt(args[2]));
         try{
             pool.start(new File(startPlace),textToSearch);
         }

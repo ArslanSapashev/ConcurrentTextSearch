@@ -1,5 +1,8 @@
 package com.sapashev;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +17,8 @@ public class ThreadPool {
     private final List<File> files = new ArrayList<File>();
     private final List<Thread> threads = new ArrayList<Thread>();
     private int numThreads;
+    private static final Logger LOG = LoggerFactory.getLogger(ThreadPool.class);
+
 
     /**
      * Creates ThreadPool object.
@@ -38,6 +43,7 @@ public class ThreadPool {
             thread.start();
             thread.join();
         }
+        LOG.info("All Threads started");
     }
 
     /**
@@ -61,6 +67,7 @@ public class ThreadPool {
             if(toIndex > files.size()){
                 toIndex = files.size();
             }
+            LOG.info(String.format("%s created.", threads.get(threads.size()-1)));
         }
     }
 

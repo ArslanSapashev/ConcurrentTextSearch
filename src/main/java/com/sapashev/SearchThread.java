@@ -1,5 +1,8 @@
 package com.sapashev;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -21,6 +24,8 @@ public class SearchThread implements Runnable {
     private final List<File> files;
     private final List<Thread> threads;
     private final String textToSearch;
+    private static final Logger LOG = LoggerFactory.getLogger(SearchThread.class);
+
 
     public SearchThread(List<File> files, String textToSearch, List<Thread> threads){
         this.files = files;
@@ -37,17 +42,17 @@ public class SearchThread implements Runnable {
         for(File f : files){
             try {
                 if(checkFileByString(f)){
-                    System.out.printf("Text has been found in %s file\n",f);
+                    LOG.info(String.format("Text has been found in %s file.", f));
                     interruptOtherThreads();
                     break;
                 }
             }
             catch (FileNotFoundException ex){
-                //TODO log exception here
+                LOG.error(ex.getMessage());
             }
             if(Thread.currentThread().isInterrupted()){
-                //TODO log thread exit
-                return;
+                LOG.info(String.format("Thread %s interrupted.", Thread.currentThread()));
+                break;
             }
         }
     }
@@ -61,15 +66,15 @@ public class SearchThread implements Runnable {
      */
     private boolean checkFileByString(File file) throws FileNotFoundException{
         boolean isTextFound = false;
-        try (Scanner scanner = new Scanner(file)){
-            while (scanner.hasNextLine()){
-                String text = scanner.nextLine();
-                if(checkMatch(text)){
-                    isTextFound = true;
-                    break;
+            try (Scanner scanner = new Scanner(file)) {
+                while (scanner.hasNextLine()) {
+                    String text = scanner.nextLine();
+                    if (checkMatch(text)) {
+                        isTextFound = true;
+                        break;
+                    }
                 }
             }
-        }
         return isTextFound;
     }
 
@@ -93,13 +98,11 @@ public class SearchThread implements Runnable {
      * Sends interrupt message to all threads in thread pool, exclusive current thread.
      * Before sending interrupt message it checks if target thread is still alive.
      */
-    private void interruptOtherThreads(){
+    private void interruptOtherThreads() {
         for(Thread thread : threads){
-            if(thread.isAlive() && !Thread.currentThread().equals(thread)){
+            if(!Thread.currentThread().equals(thread)){
                 thread.interrupt();
             }
         }
     }
-
-
 }

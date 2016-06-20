@@ -1,5 +1,8 @@
 package com.sapashev;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -12,16 +15,17 @@ import java.io.FileNotFoundException;
  * @version 1.0
  */
 public class SimpleConcurrentSearch {
+    private static final Logger LOG = LoggerFactory.getLogger(SimpleConcurrentSearch.class);
+
     public static void main (String[] args) {
         try {
-            new SimpleConcurrentSearch().start(args, 100);
+            new SimpleConcurrentSearch().start(args, 50);
         }
         catch (MissedArgumentException ex){
-            //TODO log exception
+            LOG.error(String.format("%s. User passed %d parameters.", ex, args.length));
         }
         catch (FileNotFoundException ex){
-            //TODO log exception
-            System.out.println("wrong path");
+            LOG.error(String.format("Wrong path %s %s",args[0],ex));
         }
     }
 

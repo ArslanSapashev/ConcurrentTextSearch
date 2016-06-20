@@ -66,6 +66,10 @@ public class ThreadPool {
         }
     }
 
+    /**
+     * Creates list of all files that resides in that directory and all subdirectories.
+     * @param root - place from which to create list of files.
+     */
     private void createFileList(File root){
         for(File f : root.listFiles()){
             if(f.isFile()){

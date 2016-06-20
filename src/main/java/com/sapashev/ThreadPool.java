@@ -9,8 +9,6 @@ import java.util.List;
  * @author Arslan Sapashev
  * @since 19.06.2016
  * @version 1.0
- *
- *
  */
 public class ThreadPool {
     private final List<File> files = new ArrayList<File>();
@@ -25,6 +23,21 @@ public class ThreadPool {
      */
     public ThreadPool(int numTheads){
         this.numThreads = numTheads;
+    }
+
+    /**
+     * Invokes createThreads method and after that starts all the created threads,
+     * and joins main thread to each of them.
+     * @param rootOfSearch - directory to start search of text.
+     * @param textToSearch - text to search in files.
+     * @throws InterruptedException
+     */
+    public void start(File rootOfSearch, String textToSearch) throws InterruptedException{
+        createThreads(rootOfSearch, textToSearch);
+        for(Thread thread : threads){
+            thread.start();
+            thread.join();
+        }
     }
 
     /**
@@ -52,22 +65,8 @@ public class ThreadPool {
     }
 
     /**
-     * Invokes createThreads method and after that starts all the created threads,
-     * and joins main thread to each of them.
-     * @param rootOfSearch - directory to start search of text.
-     * @param textToSearch - text to search in files.
-     * @throws InterruptedException
-     */
-    public void start(File rootOfSearch, String textToSearch) throws InterruptedException{
-        createThreads(rootOfSearch, textToSearch);
-        for(Thread thread : threads){
-            thread.start();
-            thread.join();
-        }
-    }
-
-    /**
      * Creates list of all files that resides in that directory and all subdirectories.
+     * Recursively passes through directory and subdirectories to create list of all files.
      * @param root - place from which to create list of files.
      */
     private void createFileList(File root){

@@ -14,7 +14,7 @@ import java.io.FileNotFoundException;
 public class SimpleConcurrentSearch {
     public static void main (String[] args) {
         try {
-            new SimpleConcurrentSearch().startProcession(args);
+            new SimpleConcurrentSearch().start(args, 4);
         }
         catch (MissedArgumentException ex){
             //TODO log exception
@@ -25,16 +25,22 @@ public class SimpleConcurrentSearch {
         }
     }
 
-    private void startProcession(String[] args) throws MissedArgumentException, FileNotFoundException {
+    /**
+     * Checks arguments and creates thread pool.
+     * @param args - first argument it's place from which start to search, the second one is text to search.
+     * @throws MissedArgumentException - if one/both arguments absent.
+     * @throws FileNotFoundException - if first argument points to wrong path
+     */
+    private void start (String[] args, int numThreads) throws MissedArgumentException, FileNotFoundException {
         if (args.length < 2){
             throw new MissedArgumentException("missed some arguments");
         }
+        if(!(new File(args[0]).exists())){
+            throw new FileNotFoundException("no such file/directory");
+        }
         String startPlace = args[0];
         String textToSearch = args[1];
-        if(!(new File(startPlace).exists())){
-            throw new FileNotFoundException("no such file");
-        }
-        ThreadPool pool = new ThreadPool(20);
+        ThreadPool pool = new ThreadPool(numThreads);
         try{
             pool.start(new File(startPlace),textToSearch);
         }

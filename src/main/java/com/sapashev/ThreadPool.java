@@ -70,7 +70,11 @@ public class ThreadPool {
      * @param root - place from which to create list of files.
      */
     private void createFileList(File root){
-        for(File f : root.listFiles()){
+        File[] list = root.listFiles();
+        if(list == null){
+            return;
+        }
+        for(File f : list){
             if(f.isFile()){
                 files.add(f);
             } else {

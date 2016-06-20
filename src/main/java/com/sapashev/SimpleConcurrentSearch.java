@@ -14,7 +14,7 @@ import java.io.FileNotFoundException;
 public class SimpleConcurrentSearch {
     public static void main (String[] args) {
         try {
-            new SimpleConcurrentSearch().start(args, 20);
+            new SimpleConcurrentSearch().start(args, 100);
         }
         catch (MissedArgumentException ex){
             //TODO log exception

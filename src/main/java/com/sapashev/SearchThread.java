@@ -12,16 +12,13 @@ import java.util.Scanner;
  * @version 1.0
  */
 public class SearchThread implements Runnable {
-    private List<File> files;
-    private List<Thread> threads;
-    private String textToSearch;
+    private final List<File> files;
+    private final List<Thread> threads;
+    private final String textToSearch;
 
-    public SearchThread(List<File> files, String textToSearch){
+    public SearchThread(List<File> files, String textToSearch, List<Thread> threads){
         this.files = files;
         this.textToSearch = textToSearch;
-    }
-
-    public void setThreadsList(List<Thread> threads){
         this.threads = threads;
     }
 
@@ -29,7 +26,7 @@ public class SearchThread implements Runnable {
         for(File f : files){
             try {
                 if(checkFileByString(f)){
-                    System.out.format("Text has been found in %s file",f);
+                    System.out.printf("Text has been found in %s file\n",f);
                     interruptOtherThreads();
                     break;
                 }
@@ -62,13 +59,16 @@ public class SearchThread implements Runnable {
         boolean isMatches = false;
         for(int i = 0; i < textToSearch.length(); i++){
             isMatches = textToSearch.regionMatches(true,0,text,i,textToSearch.length());
+            if(isMatches){
+                break;
+            }
         }
         return isMatches;
     }
 
     private void interruptOtherThreads(){
         for(Thread thread : threads){
-            if(!Thread.currentThread().equals(thread)){
+            if(thread.isAlive() && !Thread.currentThread().equals(thread)){
                 thread.interrupt();
             }
         }

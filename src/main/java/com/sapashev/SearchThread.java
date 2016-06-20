@@ -48,7 +48,7 @@ public class SearchThread implements Runnable {
                 }
             }
             catch (FileNotFoundException ex){
-                LOG.error(ex.getMessage());
+                LOG.error(String.format("Exception %s occurred.", ex));
             }
             if(Thread.currentThread().isInterrupted()){
                 LOG.info(String.format("Thread %s interrupted.", Thread.currentThread()));

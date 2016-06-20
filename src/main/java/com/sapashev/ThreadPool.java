@@ -54,11 +54,15 @@ public class ThreadPool {
      * @param textToSearch - text to search in files.
      */
     private void createThreads(File rootOfSearch, String textToSearch){
+        //Creates list of all files in directory and subdirectories
         createFileList(rootOfSearch);
+        //Calculates number of threads
         numThreads = files.size() < numThreads ? files.size() : numThreads;
+        //Divides file list to the sublist for each thread
         int filesToProcess = files.size()/numThreads;
         int fromIndex = 0;
         int toIndex = fromIndex + filesToProcess;
+        //Creates new threads and adds them to the tread list
         for(int i = 0; i < numThreads; i++){
             threads.add(new Thread(new SearchThread(files.subList(fromIndex,toIndex),textToSearch, threads)));
             //increases fromIndex and toIndex to get next sublist of files

@@ -30,6 +30,8 @@ public class SearchThread implements Runnable {
 
     /**
      * Conducts basic activity for text search.
+     * Invokes checkFileByString method for each file in file list.
+     * If text found in some file, invokes interruptOtherThreads method to stop other threads.
      */
     public void run () {
         for(File f : files){
@@ -51,7 +53,7 @@ public class SearchThread implements Runnable {
     }
 
     /**
-     * Reads file string by string and invokes checkMatch method fro each string to check
+     * Reads file string by string and invokes checkMatch method for each string to check
      * if string from file matches to the text.
      * @param file - file from which to read data.
      * @return - false - no any match, true - file contains text.

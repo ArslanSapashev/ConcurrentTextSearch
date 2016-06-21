@@ -69,29 +69,13 @@ public class SearchThread implements Runnable {
             try (Scanner scanner = new Scanner(file)) {
                 while (scanner.hasNextLine()) {
                     String text = scanner.nextLine();
-                    if (checkMatch(text)) {
+                    if (text.toUpperCase().contains(textToSearch.toUpperCase())) {
                         isTextFound = true;
                         break;
                     }
                 }
             }
         return isTextFound;
-    }
-
-    /**
-     * Checks if textToSearch field is presents in text parameter.
-     * @param text - text where to search textToSearch occurrence.
-     * @return - false - no any match, true - text contains textToSearch.
-     */
-    private boolean checkMatch(String text){
-        boolean isMatches = false;
-        for(int i = 0; i < textToSearch.length(); i++){
-            isMatches = textToSearch.regionMatches(true,0,text,i,textToSearch.length());
-            if(isMatches){
-                break;
-            }
-        }
-        return isMatches;
     }
 
     /**

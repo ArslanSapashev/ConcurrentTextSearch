@@ -42,7 +42,7 @@ public class SearchThread implements Runnable {
         for(File f : files){
             try {
                 if(checkFileByString(f)){
-                    LOG.info(String.format("Text has been found in %s file.", f));
+                    LOG.info(String.format("Text has been found in %s file by %s.", f, Thread.currentThread()));
                     interruptOtherThreads();
                     break;
                 }

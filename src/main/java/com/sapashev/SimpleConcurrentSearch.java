@@ -27,6 +27,9 @@ public class SimpleConcurrentSearch {
         catch (FileNotFoundException ex){
             LOG.error(String.format("Wrong path %s %s",args[0],ex));
         }
+        catch (IllegalArgumentException ex){
+            LOG.error(String.format("%s user defined %s threads", ex, args[2]));
+        }
     }
 
     /**
@@ -41,6 +44,9 @@ public class SimpleConcurrentSearch {
         }
         if(!(new File(args[0]).exists())){
             throw new FileNotFoundException("no such file/directory");
+        }
+        if(Integer.parseInt(args[2]) < 1){
+            throw new IllegalArgumentException("Illegal number of threads");
         }
         String startPlace = args[0];
         String textToSearch = args[1];

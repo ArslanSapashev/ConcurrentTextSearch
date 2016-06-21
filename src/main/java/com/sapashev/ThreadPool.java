@@ -41,6 +41,8 @@ public class ThreadPool {
         createThreads(rootOfSearch, textToSearch);
         for(Thread thread : threads){
             thread.start();
+        }
+        for(Thread thread : threads){
             thread.join();
         }
         LOG.info("All Threads started");

@@ -42,10 +42,10 @@ public class ThreadPool {
         for(Thread thread : threads){
             thread.start();
         }
+        LOG.info(String.format("Started %d threads", threads.size()));
         for(Thread thread : threads){
             thread.join();
         }
-        LOG.info("All Threads started");
     }
 
     /**
